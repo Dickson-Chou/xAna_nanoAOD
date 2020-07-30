@@ -13,7 +13,7 @@
 #include <TLorentzVector.h>
 
 using namespace std;
-void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root"){
+void xAna_nano_nssm(std::string filename="devdatta_nanoAOD_nssm.root", std::string outputFileName="histo.root"){
            
   std::vector<std::string> inputFiles;
 
@@ -71,9 +71,11 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
   cout << "Available number of trigger paths = " << nTrigs << endl;
   Long64_t nTotal=0;
   Long64_t nPass[20]={0};
+  Int_t Ymassp[16]={90,100,125,150,200,250,300,400,500,600,700,800,900,1000,1200,1400};
+  double_t YM[2]={90,100};
   Float_t eff = 0;
-  int npassym_90 = 0 ;
-  int npassym_100 = 0;
+  double npassym_90 = 0 ;
+  double npassym_100 = 0;
   int npassym_125 = 0;
   int npassym_150 = 0;
   int npassym_200 = 0;
@@ -88,10 +90,13 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
   int npassym_1000 = 0;
   int npassym_1200 = 0;
   int npassym_1400 = 0;
+  
   const unsigned int nLabels=21;
   TH1F* heve=new TH1F("heve","",nLabels,-0.5,20.5);
   TH1F* FatJetPt = new TH1F("FatPt","",400,0,400 );
   TH1F* YMass = new TH1F("YMass","",2,0,2);
+  
+
 
   heve->SetYTitle("Number of Events");
   heve->LabelsOption("v");
@@ -233,9 +238,10 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
         FatJet_tau21_j = tau21_j;
       }
 
-      // get number of each value of Ymass
+/*      // get number of each value of Ymass
        if(GenModel_YMAss_90){
         npassym_90++;
+        
        }
        if(GenModel_YMAss_100){
         npassym_100++;
@@ -282,7 +288,7 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
        if(GenModel_YMAss_1400){
         npassym_1400++;
        }
-
+*/
 
 	     FatJetPt->Fill(FatJet_pt[ij]);
 	
@@ -323,6 +329,80 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
     FatJet_DeepTagMD_ZHbbvsQCD[1] = FatJet_deepTagMD_ZHbbvsQCD[subleadingID];
     FatJet_ParticleNetMD_ProbXbb[0] = FatJet_ParticleNetMD_probXbb[leadingID];
     FatJet_ParticleNetMD_ProbXbb[1] = FatJet_ParticleNetMD_probXbb[subleadingID];
+    /*GenModel_YMAss_90  = GenModel_YMass_90;
+    GenModel_YMAss_150 = GenModel_YMass_150;
+    GenModel_YMAss_100 = GenModel_YMass_100;
+    GenModel_YMAss_125 = GenModel_YMass_125;
+    GenModel_YMAss_200 = GenModel_YMass_200;
+    GenModel_YMAss_250 = GenModel_YMass_250;
+    GenModel_YMAss_300 = GenModel_YMass_300;
+    GenModel_YMAss_400 = GenModel_YMass_400;
+    GenModel_YMAss_500 = GenModel_YMass_500;
+    GenModel_YMAss_600 = GenModel_YMass_600;
+    GenModel_YMAss_700 = GenModel_YMass_700;
+    GenModel_YMAss_800 = GenModel_YMass_800;
+    GenModel_YMAss_900 = GenModel_YMass_900;
+    GenModel_YMAss_1000 = GenModel_YMass_1000;
+    GenModel_YMAss_1200 = GenModel_YMass_1200;
+    GenModel_YMAss_1400 = GenModel_YMass_1400;
+    YMass->Fill(GenModel_YMAss_150); */
+    
+//    cout << npassym_200 << " , " << nPass[1] << endl;
+    
+    if(nGoodPair<1)continue;
+    nPass[1]++;
+    heve->Fill(label[2],1.);
+    // get number of each value of Ymass
+       if(GenModel_YMAss_90){
+        npassym_90+=1;
+        
+       }
+       if(GenModel_YMAss_100){
+        npassym_100+=1;
+       }
+       if(GenModel_YMAss_125){
+        npassym_125++;
+       }
+       if(GenModel_YMAss_150){
+        npassym_150++;
+       }
+       if(GenModel_YMAss_200){
+        npassym_200++;
+       }
+       if(GenModel_YMAss_250){
+        npassym_250++;
+       }
+       if(GenModel_YMAss_300){
+        npassym_300++;
+       }
+       if(GenModel_YMAss_400){
+        npassym_400++;
+       }
+       if(GenModel_YMAss_500){
+        npassym_500++;
+       }
+       if(GenModel_YMAss_600){
+        npassym_600++;
+       }
+       if(GenModel_YMAss_700){
+        npassym_700++;
+       }
+       if(GenModel_YMAss_800){
+        npassym_800++;
+       }
+       if(GenModel_YMAss_900){
+        npassym_900++;
+       }
+       if(GenModel_YMAss_1000){
+        npassym_1000++;
+       }
+       if(GenModel_YMAss_1200){
+        npassym_1200++;
+       }
+       if(GenModel_YMAss_1400){
+        npassym_1400++;
+       }
+
     GenModel_YMAss_90  = GenModel_YMass_90;
     GenModel_YMAss_150 = GenModel_YMass_150;
     GenModel_YMAss_100 = GenModel_YMass_100;
@@ -340,18 +420,16 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
     GenModel_YMAss_1200 = GenModel_YMass_1200;
     GenModel_YMAss_1400 = GenModel_YMass_1400;
     YMass->Fill(GenModel_YMAss_150);
-
-    if(nGoodPair<1)continue;
-    nPass[1]++;
-    heve->Fill(label[2],1.);
     variable->Fill();
+
 
     
 
     
 
   } // end of loop over events
-
+  Int_t NY[16]={npassym_125,npassym_150,npassym_200,npassym_300,npassym_400,npassym_500,npassym_600,npassym_700,npassym_800,npassym_900,npassym_1000,npassym_1200,npassym_1400};
+  double_t ny[2]={npassym_90,npassym_100};
   cout << "Number of total events = " << nTotal << endl;
 
   for(int i=0;i<20;i++)
@@ -361,7 +439,8 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
   Float_t b = 0 ; 
   a = nTotal;
   b = nPass[1];
-  cout << " Efficiency = " << (b/a)*100<< "%" << endl;
+
+  cout << " Efficiency = " << ((b)/a)*100 << "%" << endl;
   cout << " Npassym_90 = " << npassym_90 << endl;
   cout << " Npassym_100 = " << npassym_100 << endl;
   cout << " Npassym_125 = " << npassym_125 << endl;
@@ -379,9 +458,15 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
   cout << " Npassym_1200 = " << npassym_1200 << endl;
   cout << " Npassym_1400 = " << npassym_1400 << endl;
   cout << " Ny_total = " << npassym_1400+npassym_1200+npassym_1000+npassym_900+npassym_800+npassym_700+npassym_600+npassym_500+npassym_400+npassym_300+npassym_250+npassym_200+npassym_150+npassym_100+npassym_125+npassym_90 << endl;
-
+  TGraph* gr = new TGraph(16,Ymassp,NY);
+  gr->SetTitle("Ymass_distribution");
+  gr->SetMarkerStyle(20);
+  TExec *ex = new TExec("ex","drawtext();");
+  gr->GetListOfFunctions()->Add(ex);
+  gr->Draw("ACP");
   // writing example output file
   TFile* outFile = new TFile(outputFileName.data(),"recreate");
+  gr->Write();
   heve->Write();
   FatJetPt->Write();
   YMass->Write();
@@ -390,3 +475,20 @@ void xAna_nano_nssm(std::string filename, std::string outputFileName="histo.root
   
   
 } // end of macro
+
+void drawtext()
+  {
+   Int_t i;
+   double_t YM,ny;
+   TLatex *l;
+
+   TGraph *g = (TGraph*)gPad->GetListOfPrimitives()->FindObject("Graph");
+   for (i=1; i<16; i++) {
+      g->GetPoint(i,YM,ny);
+      l = new TLatex(YM,ny+0.2,Form("%4.2f",ny));
+      l->SetTextSize(0.025);
+      l->SetTextFont(42);
+      l->SetTextAlign(21);
+      l->Paint();
+   }
+}
