@@ -57,7 +57,7 @@ void xAna_nano_nssm(std::string filename="devdatta_nanoAOD_nssm.root", std::stri
 
   std::vector<std::string> tempNames = trigNames;
 
-  // first check if the branch exists or not
+  // first check if the tirgger-branch exists or not
   for(unsigned int itrig=0; itrig < tempNames.size(); itrig++)
     {
       TBranch* thisBranch = thisTree->FindBranch(tempNames[itrig].data());
@@ -69,6 +69,31 @@ void xAna_nano_nssm(std::string filename="devdatta_nanoAOD_nssm.root", std::stri
 
   unsigned int nTrigs= trigNames.size();
   cout << "Available number of trigger paths = " << nTrigs << endl;
+  
+  // second check if the Ymass-brance exists or not
+  std::vector<std::string> YmassNames;
+  YmassNames.push_back("GenModel_YMass_90");
+  YmassNames.push_back("GenModel_YMass_100");
+  YmassNames.push_back("GenModel_YMass_125");
+  YmassNames.push_back("GenModel_YMass_150");
+
+  std::vector<std::string> TYmassNames = YmassNames;
+
+  for(unsigned int iymass=0; iymass < TYmassNames.size(); iymass++)
+  {
+    TBranch* massBranch = thisTree->FindBranch(TYmassNames[iymass].data());
+    if(massBranch==NULL){
+  cerr << "Branch: " << TYmassNames[iymass] << " is not present in the tree! " << endl;
+  YmassNames.erase(YmassNames.begin()+iymass);
+    }
+  }
+
+  unsigned int nYmass = YmassNames.size();
+  cout << "Available number of Ymass value = " << nYmass << endl;
+
+
+
+  
   Long64_t nTotal=0;
   Long64_t nPass[20]={0};
   Int_t Ymassp[16]={90,100,125,150,200,250,300,400,500,600,700,800,900,1000,1200,1400};
@@ -178,7 +203,7 @@ void xAna_nano_nssm(std::string filename="devdatta_nanoAOD_nssm.root", std::stri
     Float_t*  FatJet_btagHbb = data.GetPtrFloat("FatJet_btagHbb");
     Float_t*  FatJet_deepTagMD_ZHbbvsQCD = data.GetPtrFloat("FatJet_deepTagMD_ZHbbvsQCD");
     Float_t*  FatJet_ParticleNetMD_probXbb = data.GetPtrFloat("FatJet_ParticleNetMD_probXbb");
-    Bool_t   GenModel_YMass_150 = data.GetBool("GenModel_YMass_150");
+/*    Bool_t   GenModel_YMass_150 = data.GetBool("GenModel_YMass_150");
     Bool_t   GenModel_YMass_90 = data.GetBool("GenModel_YMass_90");
     Bool_t   GenModel_YMass_100 = data.GetBool("GenModel_YMass_100");
     Bool_t   GenModel_YMass_125 = data.GetBool("GenModel_YMass_125");
@@ -193,7 +218,7 @@ void xAna_nano_nssm(std::string filename="devdatta_nanoAOD_nssm.root", std::stri
     Bool_t   GenModel_YMass_900 = data.GetBool("GenModel_YMass_900");
     Bool_t   GenModel_YMass_1000 = data.GetBool("GenModel_YMass_1000");
     Bool_t   GenModel_YMass_1200 = data.GetBool("GenModel_YMass_1200");
-    Bool_t   GenModel_YMass_1400 = data.GetBool("GenModel_YMass_1400");
+    Bool_t   GenModel_YMass_1400 = data.GetBool("GenModel_YMass_1400"); */
 
 
 
@@ -238,57 +263,7 @@ void xAna_nano_nssm(std::string filename="devdatta_nanoAOD_nssm.root", std::stri
         FatJet_tau21_j = tau21_j;
       }
 
-/*      // get number of each value of Ymass
-       if(GenModel_YMAss_90){
-        npassym_90++;
-        
-       }
-       if(GenModel_YMAss_100){
-        npassym_100++;
-       }
-       if(GenModel_YMAss_125){
-        npassym_125++;
-       }
-       if(GenModel_YMAss_150){
-        npassym_150++;
-       }
-       if(GenModel_YMAss_200){
-        npassym_200++;
-       }
-       if(GenModel_YMAss_250){
-        npassym_250++;
-       }
-       if(GenModel_YMAss_300){
-        npassym_300++;
-       }
-       if(GenModel_YMAss_400){
-        npassym_400++;
-       }
-       if(GenModel_YMAss_500){
-        npassym_500++;
-       }
-       if(GenModel_YMAss_600){
-        npassym_600++;
-       }
-       if(GenModel_YMAss_700){
-        npassym_700++;
-       }
-       if(GenModel_YMAss_800){
-        npassym_800++;
-       }
-       if(GenModel_YMAss_900){
-        npassym_900++;
-       }
-       if(GenModel_YMAss_1000){
-        npassym_1000++;
-       }
-       if(GenModel_YMAss_1200){
-        npassym_1200++;
-       }
-       if(GenModel_YMAss_1400){
-        npassym_1400++;
-       }
-*/
+
 
 	     FatJetPt->Fill(FatJet_pt[ij]);
 	
@@ -329,23 +304,7 @@ void xAna_nano_nssm(std::string filename="devdatta_nanoAOD_nssm.root", std::stri
     FatJet_DeepTagMD_ZHbbvsQCD[1] = FatJet_deepTagMD_ZHbbvsQCD[subleadingID];
     FatJet_ParticleNetMD_ProbXbb[0] = FatJet_ParticleNetMD_probXbb[leadingID];
     FatJet_ParticleNetMD_ProbXbb[1] = FatJet_ParticleNetMD_probXbb[subleadingID];
-    /*GenModel_YMAss_90  = GenModel_YMass_90;
-    GenModel_YMAss_150 = GenModel_YMass_150;
-    GenModel_YMAss_100 = GenModel_YMass_100;
-    GenModel_YMAss_125 = GenModel_YMass_125;
-    GenModel_YMAss_200 = GenModel_YMass_200;
-    GenModel_YMAss_250 = GenModel_YMass_250;
-    GenModel_YMAss_300 = GenModel_YMass_300;
-    GenModel_YMAss_400 = GenModel_YMass_400;
-    GenModel_YMAss_500 = GenModel_YMass_500;
-    GenModel_YMAss_600 = GenModel_YMass_600;
-    GenModel_YMAss_700 = GenModel_YMass_700;
-    GenModel_YMAss_800 = GenModel_YMass_800;
-    GenModel_YMAss_900 = GenModel_YMass_900;
-    GenModel_YMAss_1000 = GenModel_YMass_1000;
-    GenModel_YMAss_1200 = GenModel_YMass_1200;
-    GenModel_YMAss_1400 = GenModel_YMass_1400;
-    YMass->Fill(GenModel_YMAss_150); */
+    
     
 //    cout << npassym_200 << " , " << nPass[1] << endl;
     
